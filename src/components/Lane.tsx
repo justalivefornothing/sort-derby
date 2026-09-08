@@ -4,7 +4,7 @@ import type { Lane as LaneState } from '../race/engine'
 const COMPARE = '#f4f1ea'
 const MOVE = '#ff3b3b'
 
-export function drawLane(canvas: HTMLCanvasElement, lane: LaneState): void {
+function drawLane(canvas: HTMLCanvasElement, lane: LaneState): void {
   const ctx = canvas.getContext('2d')
   if (!ctx) return
   const dpr = window.devicePixelRatio || 1

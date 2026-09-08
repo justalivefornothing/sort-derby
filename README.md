@@ -86,7 +86,8 @@ which is the footnote on the page inviting you to try it.
 npm install
 npm run dev        # local dev server
 npm run build      # type-check (tsc -b) + production bundle in dist/
-npm test           # vitest: 29 assertions across the sorts, engine, share links and CSV
+npm test           # vitest: 29 tests across the sorts, engine, share links and CSV
+npm run lint       # oxlint
 ```
 
 Tests include the exact-count cases the project was specified against:
