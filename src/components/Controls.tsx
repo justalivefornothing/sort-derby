@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { PRESET_LABELS, PRESETS } from '../core/prng'
-import { MAX_SIZE, MIN_SIZE, stepsPerSecond, type RaceController } from '../race/useRace'
+import { MAX_SIZE, MIN_SIZE, shareUrl } from '../race/share'
+import { stepsPerSecond, type RaceController } from '../race/useRace'
 
 const btn =
   'inline-flex h-9 items-center justify-center gap-1.5 rounded-md border px-3 font-display text-sm font-semibold uppercase tracking-wider transition-colors disabled:cursor-not-allowed disabled:opacity-40'
@@ -18,6 +20,22 @@ interface Props {
 export function Controls({ ctl, onExport }: Props) {
   const { race, config, configure, playing, toggle, step, reset, reshuffle, speed, setSpeed } = ctl
   const started = race.lanes.some((l) => l.tally.steps > 0)
+  const [copied, setCopied] = useState(false)
+  useEffect(() => {
+    if (!copied) return
+    const t = setTimeout(() => setCopied(false), 1500)
+    return () => clearTimeout(t)
+  }, [copied])
+
+  const share = async () => {
+    const url = shareUrl(config, window.location.href)
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+    } catch {
+      window.prompt('Copy this race link', url)
+    }
+  }
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-line/15 bg-asphalt-2/70 p-3 sm:flex-row sm:flex-wrap sm:items-end">
@@ -95,6 +113,9 @@ export function Controls({ ctl, onExport }: Props) {
           title="Reshuffle with a new seed"
         >
           <span aria-hidden="true">&#x21bb;</span> seed {config.seed}
+        </button>
+        <button type="button" onClick={share} className={ghost} title="Copy a link that reproduces this exact race">
+          {copied ? 'Copied' : 'Share'}
         </button>
         <button
           type="button"

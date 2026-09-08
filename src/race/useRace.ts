@@ -1,16 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ALGORITHMS } from '../core/algorithms'
-import { makeInput, type Preset } from '../core/prng'
+import { makeInput } from '../core/prng'
+import { clampSize, configFromUrl, type RaceConfig } from './share'
 import { Race } from './engine'
-
-export const MIN_SIZE = 8
-export const MAX_SIZE = 256
-
-export interface RaceConfig {
-  preset: Preset
-  size: number
-  seed: number
-}
 
 /** Slider 0..100 -> 4 .. 16384 work steps per second (log scale). */
 export const stepsPerSecond = (speed: number): number => 2 ** (2 + (12 * speed) / 100)
@@ -19,9 +11,10 @@ const newSeed = () => Math.floor(Math.random() * 1_000_000)
 const buildRace = (c: RaceConfig) => new Race(ALGORITHMS, makeInput(c.preset, c.size, c.seed))
 
 export function useRace() {
-  const [config, setConfig] = useState<RaceConfig>({ preset: 'random', size: 64, seed: 4242 })
-  const [race, setRace] = useState(() => buildRace(config))
-  const [playing, setPlaying] = useState(false)
+  const [initial] = useState(() => configFromUrl(window.location.search))
+  const [config, setConfig] = useState<RaceConfig>(initial.config)
+  const [race, setRace] = useState(() => buildRace(initial.config))
+  const [playing, setPlaying] = useState(initial.autostart)
   const [speed, setSpeed] = useState(60)
   // Bumped whenever the (mutable) race moves, so React re-renders the lanes.
   const [version, setVersion] = useState(0)
@@ -33,6 +26,7 @@ export function useRace() {
 
   const configure = useCallback((patch: Partial<RaceConfig>) => {
     const next = { ...configRef.current, ...patch }
+    next.size = clampSize(next.size)
     configRef.current = next
     setConfig(next)
     setRace(buildRace(next))
