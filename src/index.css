@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/oswald';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/600.css';
+
+@theme {
+  --font-display: 'Oswald Variable', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --color-asphalt: #0b0b0d;
+  --color-asphalt-2: #131316;
+  --color-asphalt-3: #1c1c21;
+  --color-line: #f4f1ea;
+  --color-chalk: #e9e6df;
+  --color-muted: #8d8b85;
+
+  --color-lime: #c6ff3d;
+  --color-cyan: #34e5ff;
+  --color-magenta: #ff3dd1;
+  --color-amber: #ffb930;
+  --color-violet: #a78bfa;
+  --color-coral: #ff6b57;
+}
+
+html {
+  background: var(--color-asphalt);
+  color: var(--color-chalk);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgb(255 255 255 / 0.05), transparent 60%),
+    var(--color-asphalt);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}
