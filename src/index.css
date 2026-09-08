@@ -41,3 +41,46 @@ body {
   outline: 2px solid var(--color-lime);
   outline-offset: 2px;
 }
+
+kbd {
+  padding: 0 0.3em;
+  border: 1px solid rgb(244 241 234 / 0.25);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 0.95em;
+  color: var(--color-chalk);
+}
+
+/* Checkered-flag texture used for the finish line, place badges and the board header. */
+.checker {
+  background:
+    repeating-conic-gradient(var(--color-line) 0 25%, var(--color-asphalt) 0 50%) 0 0 / 6px 6px;
+}
+
+/* Asphalt with faint lane texture behind the bars. */
+.track {
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.015) 0 1px, transparent 1px 48px),
+    var(--color-asphalt-2);
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.slide-in {
+  animation: slide-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-in {
+    animation: none;
+  }
+}
