@@ -15,8 +15,9 @@ export const clampSize = (n: number): number => Math.min(MAX_SIZE, Math.max(MIN_
 export function configFromUrl(search: string): { config: RaceConfig; autostart: boolean } {
   const q = new URLSearchParams(search)
   const preset = q.get('preset') as Preset | null
-  const n = Number(q.get('n'))
-  const seed = Number(q.get('seed'))
+  // `Number(null)` is 0, which would silently pass the seed check below.
+  const n = Number(q.get('n') ?? NaN)
+  const seed = Number(q.get('seed') ?? NaN)
   return {
     config: {
       preset: preset && PRESETS.includes(preset) ? preset : 'random',

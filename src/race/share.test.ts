@@ -17,6 +17,12 @@ describe('shareable race links', () => {
     })
   })
 
+  it('keeps the default seed when only some params are present', () => {
+    expect(configFromUrl('?n=48').config).toEqual({ preset: 'random', size: 48, seed: 4242 })
+    expect(configFromUrl('?seed=0').config.seed).toBe(0)
+    expect(configFromUrl('').config).toEqual({ preset: 'random', size: 64, seed: 4242 })
+  })
+
   it('round-trips through shareUrl', () => {
     const config = { preset: 'few-unique' as const, size: 40, seed: 99 }
     const url = shareUrl(config, 'https://example.test/derby/?stale=1')

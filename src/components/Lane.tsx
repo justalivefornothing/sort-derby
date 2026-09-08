@@ -86,7 +86,14 @@ export function Lane({ lane, index, version, solo, onSolo }: Props) {
             title={solo ? 'Back to the race' : `Solo ${alg.name} with pseudocode`}
             className="group -mx-1 truncate rounded px-1 text-left font-display text-base leading-none font-medium uppercase tracking-wide text-chalk hover:text-(--lane) sm:text-xl"
           >
-            {alg.name}
+            {alg.short && !solo ? (
+              <>
+                <span className="sm:hidden">{alg.short}</span>
+                <span className="hidden sm:inline">{alg.name}</span>
+              </>
+            ) : (
+              alg.name
+            )}
             <span className="ml-1 text-xs tracking-normal text-muted normal-case group-hover:text-(--lane)">
               {solo ? 'back' : 'solo'}
             </span>
