@@ -72,7 +72,7 @@ export function Lane({ lane, index, version, solo, onSolo }: Props) {
       aria-label={`Lane ${index + 1}: ${alg.name} sort`}
       style={{ '--lane': alg.color } as CSSProperties}
       className={`grid gap-x-3 border-b border-dashed border-line/25 py-2 ${
-        solo ? 'grid-cols-1' : 'grid-cols-[minmax(6.5rem,9.5rem)_1fr] sm:grid-cols-[minmax(9rem,13rem)_1fr]'
+        solo ? 'grid-cols-1' : 'grid-cols-[7.25rem_1fr] sm:grid-cols-[minmax(9rem,12rem)_1fr]'
       }`}
     >
       <header className={`flex min-w-0 ${solo ? 'flex-row flex-wrap items-baseline gap-x-4 pb-2' : 'flex-col'}`}>
@@ -84,7 +84,7 @@ export function Lane({ lane, index, version, solo, onSolo }: Props) {
             type="button"
             onClick={onSolo}
             title={solo ? 'Back to the race' : `Solo ${alg.name} with pseudocode`}
-            className="group -mx-1 truncate rounded px-1 text-left font-display text-lg leading-none font-medium uppercase tracking-wide text-chalk hover:text-(--lane) sm:text-xl"
+            className="group -mx-1 truncate rounded px-1 text-left font-display text-base leading-none font-medium uppercase tracking-wide text-chalk hover:text-(--lane) sm:text-xl"
           >
             {alg.name}
             <span className="ml-1 text-xs tracking-normal text-muted normal-case group-hover:text-(--lane)">
@@ -93,21 +93,16 @@ export function Lane({ lane, index, version, solo, onSolo }: Props) {
           </button>
         </div>
         <span className="text-[11px] text-muted">{alg.complexity}</span>
-        <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 text-[11px] leading-4 tabular-nums sm:text-xs">
+        <dl className="mt-1 grid grid-cols-[2.6rem_1fr] gap-x-1 text-[11px] leading-4 tabular-nums sm:text-xs">
           <dt className="text-muted">cmp</dt>
-          <dd className="text-right sm:text-left">{fmt(tally.comparisons)}</dd>
+          <dd>{fmt(tally.comparisons)}</dd>
           <dt className="text-muted">swap</dt>
-          <dd className="text-right sm:text-left">{fmt(tally.swaps)}</dd>
+          <dd>{fmt(tally.swaps)}</dd>
           <dt className="text-muted">write</dt>
-          <dd className="text-right sm:text-left">{fmt(tally.writes)}</dd>
+          <dd>{fmt(tally.writes)}</dd>
           <dt className="text-muted">steps</dt>
-          <dd className="text-right font-semibold sm:text-left">{fmt(tally.steps)}</dd>
+          <dd className="font-semibold">{fmt(tally.steps)}</dd>
         </dl>
-        {place !== null && (
-          <span className="mt-1 inline-flex w-fit items-center gap-1 rounded-sm bg-(--lane) px-1.5 py-0.5 font-display text-xs font-semibold uppercase text-asphalt">
-            <span className="checker inline-block size-3 rounded-[2px]" aria-hidden="true" /> P{place}
-          </span>
-        )}
       </header>
       <div className="relative min-w-0">
         <canvas
@@ -117,6 +112,11 @@ export function Lane({ lane, index, version, solo, onSolo }: Props) {
           className={`block w-full ${solo ? 'h-[46vh] min-h-64' : 'h-24 sm:h-28'}`}
         />
         <div className="checker absolute inset-y-0 -right-1.5 w-1.5 opacity-70" aria-hidden="true" />
+        {place !== null && (
+          <span className="slide-in absolute top-1 right-2 inline-flex items-center gap-1.5 rounded-sm bg-(--lane) px-2 py-0.5 font-display text-sm font-bold uppercase text-asphalt shadow-lg">
+            <span className="checker inline-block size-3 rounded-[2px]" aria-hidden="true" /> P{place}
+          </span>
+        )}
       </div>
     </section>
   )

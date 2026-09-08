@@ -3,7 +3,7 @@ import { Controls } from './components/Controls'
 import { Lane } from './components/Lane'
 import { Leaderboard } from './components/Leaderboard'
 import { Pseudocode } from './components/Pseudocode'
-import type { AlgorithmId } from './core/algorithms'
+import { ALGORITHMS, type AlgorithmId } from './core/algorithms'
 import { statsToCsv } from './core/csv'
 import { useRace } from './race/useRace'
 
@@ -17,7 +17,10 @@ function downloadCsv(name: string, csv: string) {
 export default function App() {
   const ctl = useRace()
   const { race, version, config } = ctl
-  const [solo, setSolo] = useState<AlgorithmId | null>(null)
+  const [solo, setSolo] = useState<AlgorithmId | null>(() => {
+    const id = new URLSearchParams(window.location.search).get('solo')
+    return ALGORITHMS.some((a) => a.id === id) ? (id as AlgorithmId) : null
+  })
   const soloLane = solo ? race.lanes.find((l) => l.alg.id === solo) : undefined
 
   const exportCsv = () => {
